@@ -28,7 +28,11 @@ public final class JDBCDataSource {
 			cpds=new ComboPooledDataSource();
 			ResourceBundle rb=ResourceBundle.getBundle("in.co.rays.proj4.bundle.system");
 			cpds.setDriverClass(rb.getString("driver"));
-			cpds.setJdbcUrl(rb.getString("url"));
+			String jdbcUrl = System.getenv("DATABASE_URL");
+			if (jdbcUrl == null) {
+			    jdbcUrl = rb.getString("url");
+			} 
+			cpds.setJdbcUrl(jdbcUrl);
 			cpds.setUser(rb.getString("username"));
 			cpds.setPassword(rb.getString("password"));
 			cpds.setInitialPoolSize(Integer.parseInt(rb.getString("initialpoolsize")));
